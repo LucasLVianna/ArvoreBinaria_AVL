@@ -1,40 +1,30 @@
 public class Main {
     public static void main(String[] args) {
         ArvoreAVL arvore = new ArvoreAVL();
-        for(int v : new int[]{10, 20, 30, 40, 50, 25}){
+
+        int[] insercoes = {55, 26, 29, 13, 12, 11, 16, 1, 5, 29, -15, 4, 16, 8, 4, 5, 3, 1312, 100, 88};
+        int[] remocoes = {4, 29, 100, 5, -15, 16, 55};
+
+        System.out.println("===== INSERCOES =====");
+        for(int v : insercoes){
+            System.out.println("\nInserindo " + v + ":");
             arvore.inserir(v);
+            arvore.imprimir();
         }
 
-        System.out.println("Em ordem:  " + arvore.emOrdem());
+        System.out.println("\nEm ordem:  " + arvore.emOrdem());
         System.out.println("Pre-ordem: " + arvore.preOrdem());
         System.out.println("Pos-ordem: " + arvore.posOrdem());
 
-        arvore.remover(10);
-        System.out.println("Removeu 10 (folha):");
-        System.out.println("Pre-ordem: " + arvore.preOrdem());
-
-        arvore.remover(30);
-        System.out.println("Removeu 30 (raiz, dois filhos):");
-        System.out.println("Em ordem:  " + arvore.emOrdem());
-        System.out.println("Pre-ordem: " + arvore.preOrdem());
-
-        System.out.println("Contem 25? " + arvore.contem(25));
-        System.out.println("Contem 99? " + arvore.contem(99));
-
-        // Rotação simples na remoção (Esquerda-Esquerda)
-        ArvoreAVL t1 = new ArvoreAVL();
-        for(int v : new int[]{20, 10, 30, 5}){
-            t1.inserir(v);
+        System.out.println("\n===== REMOCOES =====");
+        for(int v : remocoes){
+            System.out.println("\nRemovendo " + v + ":");
+            arvore.remover(v);
+            arvore.imprimir();
         }
-        t1.remover(30);
-        System.out.println("Rotacao simples: " + t1.preOrdem()); // [10, 5, 20]
 
-        // Rotação dupla na remoção (Esquerda-Direita)
-        ArvoreAVL t2 = new ArvoreAVL();
-        for(int v : new int[]{20, 10, 30, 15}){
-            t2.inserir(v);
-        }
-        t2.remover(30);
-        System.out.println("Rotacao dupla: " + t2.preOrdem()); // [15, 10, 20]
+        System.out.println("\nEm ordem:  " + arvore.emOrdem());
+        System.out.println("Pre-ordem: " + arvore.preOrdem());
+        System.out.println("Pos-ordem: " + arvore.posOrdem());
     }
 }

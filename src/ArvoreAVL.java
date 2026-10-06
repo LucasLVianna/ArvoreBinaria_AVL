@@ -52,13 +52,31 @@ public class ArvoreAVL {
         int fb = fatorBalanceamento(no);
 
         if(fb > 1){
-            if(fatorBalanceamento(no.esquerda) < 0){
+            int fbFilho = fatorBalanceamento(no.esquerda);
+            System.out.println("  >> No " + no.valor + " desbalanceado: altura(esq)=" + altura(no.esquerda)
+                    + ", altura(dir)=" + altura(no.direita) + ", FB=" + fb);
+            if(fbFilho < 0){
+                System.out.println("     Filho esquerdo (" + no.esquerda.valor + ") tem FB=" + fbFilho
+                        + " -> caso ESQUERDA-DIREITA: rotacao esquerda em " + no.esquerda.valor
+                        + " e depois rotacao direita em " + no.valor);
                 no.esquerda = rotacaoEsquerda(no.esquerda);
+            }else{
+                System.out.println("     Filho esquerdo (" + no.esquerda.valor + ") tem FB=" + fbFilho
+                        + " -> caso ESQUERDA-ESQUERDA: rotacao direita em " + no.valor);
             }
             return rotacaoDireita(no);
         }else if(fb < -1){
-            if(fatorBalanceamento(no.direita) > 0){
+            int fbFilho = fatorBalanceamento(no.direita);
+            System.out.println("  >> No " + no.valor + " desbalanceado: altura(esq)=" + altura(no.esquerda)
+                    + ", altura(dir)=" + altura(no.direita) + ", FB=" + fb);
+            if(fbFilho > 0){
+                System.out.println("     Filho direito (" + no.direita.valor + ") tem FB=" + fbFilho
+                        + " -> caso DIREITA-ESQUERDA: rotacao direita em " + no.direita.valor
+                        + " e depois rotacao esquerda em " + no.valor);
                 no.direita = rotacaoDireita(no.direita);
+            }else{
+                System.out.println("     Filho direito (" + no.direita.valor + ") tem FB=" + fbFilho
+                        + " -> caso DIREITA-DIREITA: rotacao esquerda em " + no.valor);
             }
             return rotacaoEsquerda(no);
         }else{
@@ -83,6 +101,10 @@ public class ArvoreAVL {
     }
 
     public void inserir(int valor){
+        if(contem(valor)){
+            System.out.println("  (valor " + valor + " ja existe, duplicado ignorado)");
+            return;
+        }
         raiz = inserir(raiz, valor);
     }
 
@@ -156,6 +178,7 @@ public class ArvoreAVL {
                 return no.esquerda;
             }else{
                 No sucessor = menorValor(no.direita);
+                System.out.println("  (no " + no.valor + " tem dois filhos: sucessor = " + sucessor.valor + ")");
                 no.valor = sucessor.valor;
                 no.direita = remover(no.direita, sucessor.valor);
             }
@@ -166,6 +189,10 @@ public class ArvoreAVL {
     }
 
     public void remover(int valor){
+        if(!contem(valor)){
+            System.out.println("  (valor " + valor + " nao existe na arvore)");
+            return;
+        }
         raiz = remover(raiz, valor);
     }
 
@@ -183,5 +210,23 @@ public class ArvoreAVL {
         }
 
         return false;
+    }
+
+    private void desenhar(No no, int nivel){
+        if(no == null){
+            return;
+        }
+        desenhar(no.direita, nivel + 1);
+        System.out.println("      " + "      ".repeat(nivel) + no.valor
+                + " [h=" + no.altura + ", FB=" + fatorBalanceamento(no) + "]");
+        desenhar(no.esquerda, nivel + 1);
+    }
+
+    public void imprimir(){
+        if(raiz == null){
+            System.out.println("      (arvore vazia)");
+        }else{
+            desenhar(raiz, 0);
+        }
     }
 }
