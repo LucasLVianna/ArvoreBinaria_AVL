@@ -37,4 +37,20 @@ public class Arvore {
             emOrdem(atual.direita);
         }
     }
+
+    public void preOrdem(No atual){
+        if(atual != null) {
+            System.out.println(atual.valor);
+            preOrdem(atual.esquerda);
+            preOrdem(atual.direita);
+        }
+    }
+
+    public void posOrdem(No atual){
+        if(atual != null) {
+            posOrdem(atual.esquerda);
+            posOrdem(atual.direita);
+            System.out.println(atual.valor);
+        }
+    }
 }
