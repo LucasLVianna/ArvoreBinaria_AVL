@@ -53,4 +53,97 @@ public class Arvore {
             System.out.println(atual.valor);
         }
     }
+
+    public boolean remover(int valor){
+        No noAtual = this.raiz;
+        No paiAtual = null;
+
+        while(noAtual != null){
+            if(noAtual.valor == valor){
+                break;
+            }else if(valor < noAtual.valor ){
+                paiAtual = noAtual;
+                noAtual = noAtual.esquerda;
+            }else{
+                paiAtual = noAtual;
+                noAtual = noAtual.direita;
+            }
+        }
+
+    if(noAtual != null){
+        // um filho a direita ou dois filhos
+        if(noAtual.direita != null){
+
+            No substito = noAtual.direita;
+            No paiSubstituto = noAtual;
+            while(substito.esquerda != null){
+                paiSubstituto = substito;
+                substito = substito.esquerda;
+            }
+
+            if(paiAtual != null){
+                if(noAtual.valor < paiAtual.valor){
+                    paiAtual.esquerda = substito;
+                }else{
+                    paiAtual.direita = substito;
+                }
+            }else{
+                this.raiz = substito;
+            }
+
+            // remover elemento
+            if(substito.valor < paiSubstituto.valor){
+                paiSubstituto.esquerda = null;
+            }else{
+                paiSubstituto.direita = null;
+            }
+
+        }else if(noAtual.esquerda != null){
+            No substito = noAtual.esquerda;
+            No paiSubstituto = noAtual;
+            while(substito.direita != null){
+                paiSubstituto = substito;
+                substito = substito.direita;
+            }
+
+            substito.esquerda = noAtual.esquerda;
+
+            if(paiAtual != null){
+                if(noAtual.valor < paiAtual.valor){
+                    paiAtual.esquerda = substito;
+                }else{
+                    paiAtual.direita = substito;
+                }
+            }else{
+                this.raiz = substito;
+            }
+
+
+
+            // remover elemento
+            if(substito.valor < paiSubstituto.valor){
+                paiSubstituto.esquerda = null;
+            }else{
+                paiSubstituto.direita = null;
+            }
+
+        }else{
+            if(paiAtual !=null ){
+                if(noAtual.valor < paiAtual.valor){
+                    paiAtual.esquerda = null;
+                }else{
+                    paiAtual.direita = null;
+                }
+            }else{
+                this.raiz = null;
+            }
+
+        }
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
 }
